@@ -1,0 +1,261 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microservicio de Pagos",
+    "version": "1.0.0",
+    "description": "Microservicio para gestionar pagos"
+  },
+  "host": "192.168.49.2:31897",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/pagos": {
+      "post": {
+        "summary": "Crear un pago",
+        "description": "Crea un pago asociado a una compra.",
+        "parameters": [
+          {
+            "name": "compraId",
+            "in": "body",
+            "required": true,
+            "description": "ID de la compra asociada al pago",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "compraId": {
+                  "type": "string"
+                },
+                "monto": {
+                  "type": "number",
+                  "format": "float"
+                }
+              },
+              "required": ["compraId", "monto"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Pago creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID del pago"
+                    },
+                    "compraId": {
+                      "type": "string",
+                      "description": "ID de la compra"
+                    },
+                    "monto": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Monto del pago"
+                    },
+                    "estado": {
+                      "type": "string",
+                      "description": "Estado del pago"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la solicitud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Obtener todos los pagos",
+        "description": "Obtiene la lista de todos los pagos.",
+        "responses": {
+          "200": {
+            "description": "Lista de pagos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID del pago"
+                      },
+                      "compraId": {
+                        "type": "string",
+                        "description": "ID de la compra"
+                      },
+                      "monto": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Monto del pago"
+                      },
+                      "estado": {
+                        "type": "string",
+                        "description": "Estado del pago"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Mensaje de error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pagos/{id}": {
+      "get": {
+        "summary": "Obtener un pago por su ID",
+        "description": "Obtiene los detalles de un pago mediante su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del pago a obtener",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID del pago"
+                    },
+                    "compraId": {
+                      "type": "string",
+                      "description": "ID de la compra"
+                    },
+                    "monto": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Monto del pago"
+                    },
+                    "estado": {
+                      "type": "string",
+                      "description": "Estado del pago"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pago no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/pagos/{id}/procesar": {
+      "post": {
+        "summary": "Procesar un pago",
+        "description": "Simula el procesamiento de un pago.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del pago a procesar",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago procesado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID del pago"
+                    },
+                    "compraId": {
+                      "type": "string",
+                      "description": "ID de la compra"
+                    },
+                    "monto": {
+                      "type": "number",
+                      "format": "float",
+                      "description": "Monto del pago"
+                    },
+                    "estado": {
+                      "type": "string",
+                      "description": "Estado del pago"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pago no encontrado"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    }
+  }
+}
